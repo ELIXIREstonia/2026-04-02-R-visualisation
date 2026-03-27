@@ -47,6 +47,15 @@ Before starting this session, learners should already be comfortable with:
 If you want a quick refresher on those ideas, use the `2026-04-02-R-warmup.Rmd`
 document first.
 
+## Your first plot
+
+Before we break a plot into parts, it helps to see one complete example.
+
+```{r}
+ggplot(cars, aes(x = wt, y = mpg, color = am)) +
+  geom_point(size = 3)
+```
+
 ## Grammar of graphics
 
 ![](https://ggplot2.tidyverse.org/articles/ggplot2_files/figure-html/overview_graphic-1.png)
@@ -73,6 +82,24 @@ We will not cover coordinates in this course, and instead of using native
 faceting functions such as `facet_wrap()` or `facet_grid()`, we will build
 multi-panel comparisons with `patchwork`. That keeps the first version of the
 grammar simple while still showing how plots can be combined and compared.
+
+## Additional components
+
+Besides the main grammar components, `ggplot2` also gives us tools that help
+explain and polish a plot. Two useful examples are `labs()` and guides.
+
+`labs()` adds human-readable labels such as a title, axis names, and legend
+names.
+
+```{r}
+ggplot(cars, aes(x = wt, y = mpg, color = am)) +
+  geom_point(size = 3) +
+  labs(title = "Fuel efficiency and car weight",
+    x = "Weight (1000 lb)",
+    y = "Miles per gallon",
+    color = "Transmission"
+  )
+```
 
 ## Data
 
