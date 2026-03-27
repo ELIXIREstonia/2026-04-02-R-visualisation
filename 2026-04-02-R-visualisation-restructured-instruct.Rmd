@@ -74,17 +74,27 @@ ggplot(cars, aes(x = wt, y = mpg)) +  # aes() maps columns to x and y axes
 
 ## Grammar of graphics
 
-The grammar of graphics breaks a plot into a few reusable pieces:
+![](https://ggplot2.tidyverse.org/articles/ggplot2_files/figure-html/overview_graphic-1.png)
 
-- data: the table used in the plot
-- aesthetics: how variables are mapped to visual properties such as x, y, and
-  colour
-- geoms: the visible marks such as points, bars, or boxes
-- scales: how data values are translated into positions, colours, or sizes
-- themes: the non-data styling around the plot
+The `ggplot2` introduction describes a plot as seven composable parts:
 
-Because each part is separate, we can keep adding or changing layers without
-starting again from scratch.
+- data: the table we want to visualise
+- mapping: how variables are linked to aesthetics such as x, y, colour, or size
+- layers: what gets drawn, including the geom, the statistical transformation,
+  and the position adjustment
+- scales: how values become axes, legend entries, colours, or sizes
+- facets: ways to split a dataset into multiple small panels
+- coordinates: the system that interprets position, such as Cartesian
+  coordinates
+- theme: the non-data styling around the plot
+
+This course keeps that full picture in mind, but we will focus on the parts
+that beginners need most often.
+
+We will not cover coordinates in this course, and instead of using native
+faceting functions such as `facet_wrap()` or `facet_grid()`, we will build
+multi-panel comparisons with `patchwork`. That keeps the first version of the
+grammar simple while still showing how plots can be combined and compared.
 
 ## Aesthetics
 
