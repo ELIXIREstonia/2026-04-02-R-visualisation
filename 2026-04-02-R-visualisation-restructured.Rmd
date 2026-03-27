@@ -80,7 +80,8 @@ tells the plot, "this is the table we will use to create the visualisation."
 Before making a chart, it helps to know what the rows represent and what kind
 of variables the columns contain.
 
-We use the built-in `mtcars` dataset throughout the course.
+For the rest of the course, we use the cleaned dataset `cars` rather than the
+raw `mtcars` table.
 
 ```{r}
 glimpse(cars)
