@@ -12,17 +12,17 @@ editor_options:
 library(knitr)
 library(ggplot2)
 library(dplyr)
-library(patchwork)
+library(patchwork)  # for combining multiple plots into one layout
 library(tibble)
 
 opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 
 cars <- mtcars %>%
-  rownames_to_column(var = "car") %>%
+  rownames_to_column(var = "car") %>%   # move row names (car models) into a real column
   mutate(
-    cyl = factor(cyl),
-    gear = factor(gear),
-    am = factor(am, levels = c(0, 1), labels = c("Automatic", "Manual"))
+    cyl = factor(cyl),                  # treat cylinder count as a category, not a number
+    gear = factor(gear),                # same for number of gears
+    am = factor(am, levels = c(0, 1), labels = c("Automatic", "Manual"))  # give 0/1 readable labels
   )
 ```
 
@@ -68,8 +68,8 @@ The main variables we will reuse are:
 variables to aesthetics, and adding a geom.
 
 ```{r}
-ggplot(cars, aes(x = wt, y = mpg)) +
-  geom_point(size = 3, color = "steelblue")
+ggplot(cars, aes(x = wt, y = mpg)) +  # aes() maps columns to x and y axes
+  geom_point(size = 3, color = "steelblue")  # fixed size and colour for all points
 ```
 
 ## Grammar of graphics
@@ -101,21 +101,21 @@ When an aesthetic belongs to the data, put it inside `aes()`. When you want a
 fixed value, set it outside `aes()`.
 
 ```{r fig.width=10, fig.height=4}
-mapped_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
+mapped_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +  # color inside aes() = data-driven
   geom_point(size = 3) +
   labs(title = "Colour mapped to a variable", color = "Transmission")
 
 set_plot <- ggplot(cars, aes(x = wt, y = mpg)) +
-  geom_point(size = 3, color = "steelblue") +
+  geom_point(size = 3, color = "steelblue") +  # color outside aes() = fixed value for all points
   labs(title = "Colour set to a fixed value")
 
-mapped_plot | set_plot
+mapped_plot | set_plot  # | places the two plots side by side (patchwork)
 ```
 
 You can also map more than one aesthetic at the same time.
 
 ```{r}
-ggplot(cars, aes(x = wt, y = mpg, color = am, shape = cyl)) +
+ggplot(cars, aes(x = wt, y = mpg, color = am, shape = cyl)) +  # two aesthetics mapped at once
   geom_point(size = 3)
 ```
 
@@ -125,9 +125,9 @@ Create a scatter plot of `disp` vs `hp`, map `color` to `cyl`, and set point
 size to `3`.
 
 ```{r}
-ggplot(cars, aes(x = disp, y = hp, color = cyl)) +
-  geom_point(size = 3) +
-  labs(color = "Cylinders")
+ggplot(cars, aes(x = disp, y = hp, color = cyl)) +  # cyl mapped to color (inside aes)
+  geom_point(size = 3) +                             # size set to fixed value (outside aes)
+  labs(color = "Cylinders")                          # rename the colour legend
 ```
 
 Expected result: a scatter plot where cylinder groups are distinguished by
@@ -147,18 +147,18 @@ scatter_geom <- ggplot(cars, aes(x = wt, y = mpg)) +
   labs(title = "geom_point()")
 
 hist_geom <- ggplot(cars, aes(x = mpg)) +
-  geom_histogram(binwidth = 2, fill = "tomato", color = "white") +
+  geom_histogram(binwidth = 2, fill = "tomato", color = "white") +  # binwidth controls bar width; color is bar border
   labs(title = "geom_histogram()")
 
 bar_geom <- ggplot(cars, aes(x = cyl)) +
-  geom_bar(fill = "grey40") +
+  geom_bar(fill = "grey40") +   # geom_bar() counts rows per category automatically
   labs(title = "geom_bar()", x = "Cylinders")
 
 box_geom <- ggplot(cars, aes(x = cyl, y = mpg)) +
   geom_boxplot(fill = "khaki") +
   labs(title = "geom_boxplot()", x = "Cylinders")
 
-(scatter_geom | hist_geom) / (bar_geom | box_geom)
+(scatter_geom | hist_geom) / (bar_geom | box_geom)  # / stacks rows; | places side by side
 ```
 
 As a rule of thumb:
@@ -177,8 +177,8 @@ the same plot.
 
 ```{r}
 ggplot(cars, aes(x = cyl, y = mpg, fill = cyl)) +
-  geom_boxplot(alpha = 0.5, outlier.shape = NA) +
-  geom_jitter(width = 0.15, alpha = 0.75, size = 2) +
+  geom_boxplot(alpha = 0.5, outlier.shape = NA) +  # alpha = transparency; NA hides outlier dots so jitter shows them instead
+  geom_jitter(width = 0.15, alpha = 0.75, size = 2) +  # small width keeps points within their group
   labs(x = "Cylinders", y = "Miles per gallon", fill = "Cylinders")
 ```
 
@@ -190,12 +190,12 @@ the individual cars.
 ```{r}
 ggplot(cars, aes(x = wt, y = mpg)) +
   geom_point(aes(color = am), size = 3) +
-  geom_smooth(method = "lm", se = FALSE, color = "black", linewidth = 0.8) +
+  geom_smooth(method = "lm", se = FALSE, color = "black", linewidth = 0.8) +  # lm = linear trend line; se = FALSE hides confidence ribbon
   geom_text(
-    data = cars %>% filter(mpg > 30 | wt > 5),
+    data = cars %>% filter(mpg > 30 | wt > 5),  # only label the extreme/interesting cars
     aes(label = car),
-    check_overlap = TRUE,
-    nudge_y = 1,
+    check_overlap = TRUE,  # skip labels that would overlap each other
+    nudge_y = 1,           # shift labels slightly above their points
     size = 3
   ) +
   labs(color = "Transmission")
@@ -208,8 +208,8 @@ Build a plot of `mpg` by `gear` that combines `geom_boxplot()` and
 
 ```{r}
 ggplot(cars, aes(x = gear, y = mpg)) +
-  geom_boxplot(fill = "grey85", outlier.shape = NA) +
-  geom_jitter(aes(color = am), width = 0.15, size = 2.5, alpha = 0.85) +
+  geom_boxplot(fill = "grey85", outlier.shape = NA) +       # hide outlier dots; jitter will show all points
+  geom_jitter(aes(color = am), width = 0.15, size = 2.5, alpha = 0.85) +  # color mapped per-geom, not inherited
   labs(x = "Gears", y = "Miles per gallon", color = "Transmission")
 ```
 
@@ -235,7 +235,7 @@ numeric_default <- ggplot(cars, aes(x = hp, y = mpg)) +
 
 numeric_scaled <- ggplot(cars, aes(x = hp, y = mpg)) +
   geom_point(size = 3, color = "grey40") +
-  scale_x_continuous(breaks = seq(50, 350, by = 50)) +
+  scale_x_continuous(breaks = seq(50, 350, by = 50)) +  # seq() generates tick positions: 50, 100, 150 ...
   scale_y_continuous(breaks = seq(10, 35, by = 5)) +
   labs(title = "Custom numeric breaks")
 
@@ -253,7 +253,7 @@ default_order_plot <- ggplot(cars, aes(x = factor(cyl), y = mpg)) +
   geom_boxplot(fill = "grey80") +
   labs(title = "Default order", x = "Cylinders")
 
-reordered_plot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg)) +
+reordered_plot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg)) +  # reorder(variable, by_what, function)
   geom_boxplot(fill = "tomato") +
   labs(title = "Reordered by median mpg", x = "Cylinders")
 
@@ -273,16 +273,16 @@ such as bars, tiles, and box plots.
 ```{r fig.width=10, fig.height=4}
 color_scale_plot <- ggplot(cars, aes(x = wt, y = mpg, color = hp)) +
   geom_point(size = 4) +
-  scale_color_gradient(low = "skyblue", high = "firebrick") +
+  scale_color_gradient(low = "skyblue", high = "firebrick") +  # low hp = blue, high hp = red
   labs(title = "Continuous colour scale", color = "Horsepower")
 
 mean_mpg_by_cyl_gear <- cars %>%
   group_by(cyl, gear) %>%
-  summarise(mean_mpg = mean(mpg), .groups = "drop")
+  summarise(mean_mpg = mean(mpg), .groups = "drop")  # .groups = "drop" removes grouping after summarise
 
 fill_scale_plot <- ggplot(mean_mpg_by_cyl_gear, aes(x = cyl, y = gear, fill = mean_mpg)) +
-  geom_tile(color = "white", linewidth = 0.8) +
-  geom_text(aes(label = round(mean_mpg, 1)), color = "white", fontface = "bold") +
+  geom_tile(color = "white", linewidth = 0.8) +                          # color here is the tile border, not fill
+  geom_text(aes(label = round(mean_mpg, 1)), color = "white", fontface = "bold") +  # overlay value labels on tiles
   scale_fill_gradient(low = "khaki1", high = "darkgreen") +
   labs(
     title = "Continuous fill scale",
@@ -312,8 +312,8 @@ styled_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
     y = "Miles per gallon",
     color = "Transmission"
   ) +
-  theme_minimal(base_size = 12) +
-  theme(legend.position = "top")
+  theme_minimal(base_size = 12) +  # clean background; base_size scales all text proportionally
+  theme(legend.position = "top")   # move legend above the plot
 
 styled_plot
 ```
@@ -323,7 +323,7 @@ If you want to zoom into a region without dropping observations, use
 
 ```{r}
 styled_plot +
-  coord_cartesian(xlim = c(1.5, 4.5), ylim = c(10, 35)) +
+  coord_cartesian(xlim = c(1.5, 4.5), ylim = c(10, 35)) +  # zooms the view without dropping data points outside the range
   labs(caption = "Zoomed with coord_cartesian()")
 ```
 
@@ -336,13 +336,13 @@ Teaching note: `coord_cartesian()` is a safer teaching example than `xlim()` or
 so that knitting the document does not clutter the course folder.
 
 ```{r}
-png_file <- tempfile("mtcars-plot-", fileext = ".png")
+png_file <- tempfile("mtcars-plot-", fileext = ".png")  # tempfile() creates a safe throwaway path
 pdf_file <- tempfile("mtcars-plot-", fileext = ".pdf")
 
-ggsave(filename = png_file, plot = styled_plot, width = 8, height = 5, dpi = 300)
-ggsave(filename = pdf_file, plot = styled_plot, width = 8, height = 5)
+ggsave(filename = png_file, plot = styled_plot, width = 8, height = 5, dpi = 300)  # dpi = resolution; 300 is print quality
+ggsave(filename = pdf_file, plot = styled_plot, width = 8, height = 5)             # PDF is vector so dpi is irrelevant
 
-png_file
+png_file  # print the path so you can inspect the saved file
 pdf_file
 ```
 
@@ -355,13 +355,13 @@ The `patchwork` package makes it easy to combine several ggplots into one
 layout.
 
 ```{r fig.width=11, fig.height=8}
-dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +
+dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +  # / stacks rows; inner | places side by side
   plot_annotation(
     title = "Three views of the mtcars dataset",
     subtitle = "Scatter plot, reordered box plot, and summary heatmap",
     caption = "Data source: mtcars"
   ) +
-  plot_layout(guides = "collect")
+  plot_layout(guides = "collect")  # merge duplicate legends into one shared legend
 
 dashboard_plot
 ```
@@ -380,7 +380,7 @@ Requirements:
 ```{r fig.width=10, fig.height=6}
 fuel_scatter <- ggplot(cars, aes(x = wt, y = mpg, color = hp)) +
   geom_point(size = 3) +
-  scale_color_gradient(low = "lightblue", high = "darkred") +
+  scale_color_gradient(low = "lightblue", high = "darkred") +  # encodes a third variable (hp) through colour
   labs(
     title = "Fuel efficiency vs weight",
     x = "Weight (1000 lb)",
@@ -388,7 +388,7 @@ fuel_scatter <- ggplot(cars, aes(x = wt, y = mpg, color = hp)) +
     color = "Horsepower"
   )
 
-fuel_boxplot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg, fill = am)) +
+fuel_boxplot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg, fill = am)) +  # sort cylinders by median mpg
   geom_boxplot() +
   labs(
     title = "Fuel efficiency by cylinder count",
@@ -397,7 +397,7 @@ fuel_boxplot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg,
     fill = "Transmission"
   )
 
-fuel_scatter | fuel_boxplot
+fuel_scatter | fuel_boxplot  # combine the two panels side by side
 ```
 
 Expected result: a compact two-panel figure that uses both continuous and
