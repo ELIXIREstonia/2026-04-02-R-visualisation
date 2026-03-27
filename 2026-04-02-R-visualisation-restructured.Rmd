@@ -154,7 +154,7 @@ In practice, mapping means asking questions like:
 When an aesthetic belongs to the data, put it inside `aes()`. When you want a
 fixed value, set it outside `aes()`.
 
-```{r fig.width=10, fig.height=4}
+```{r}
 mapped_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
   geom_point(size = 3) +
   labs(title = "Colour mapped to a variable", color = "Transmission")
@@ -162,7 +162,7 @@ mapped_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
 mapped_plot
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 set_plot <- ggplot(cars, aes(x = wt, y = mpg)) +
   geom_point(size = 3, color = "steelblue") +
   labs(title = "Colour set to a fixed value")
@@ -198,7 +198,7 @@ boxes, or smooth lines.
 Different geoms are useful for different variable types. With the same dataset,
 we can make several valid plots by changing only the geom.
 
-```{r fig.width=10, fig.height=4}
+```{r}
 scatter_geom <- ggplot(cars, aes(x = wt, y = mpg)) +
   geom_point(color = "steelblue", size = 3) +
   labs(title = "geom_point()")
@@ -206,7 +206,7 @@ scatter_geom <- ggplot(cars, aes(x = wt, y = mpg)) +
 scatter_geom
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 hist_geom <- ggplot(cars, aes(x = mpg)) +
   geom_histogram(binwidth = 2, fill = "tomato", color = "white") +
   labs(title = "geom_histogram()")
@@ -214,7 +214,7 @@ hist_geom <- ggplot(cars, aes(x = mpg)) +
 hist_geom
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 bar_geom <- ggplot(cars, aes(x = cyl)) +
   geom_bar(fill = "grey40") +
   labs(title = "geom_bar()", x = "Cylinders")
@@ -222,7 +222,7 @@ bar_geom <- ggplot(cars, aes(x = cyl)) +
 bar_geom
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 box_geom <- ggplot(cars, aes(x = cyl, y = mpg)) +
   geom_boxplot(fill = "khaki") +
   labs(title = "geom_boxplot()", x = "Cylinders")
@@ -290,7 +290,7 @@ us control breaks, labels, ordering, and colour palettes.
 
 Numeric scales are useful when you want cleaner breaks or more readable axes.
 
-```{r fig.width=10, fig.height=4}
+```{r}
 numeric_default <- ggplot(cars, aes(x = hp, y = mpg)) +
   geom_point(size = 3, color = "grey40") +
   labs(title = "Default numeric scales")
@@ -298,7 +298,7 @@ numeric_default <- ggplot(cars, aes(x = hp, y = mpg)) +
 numeric_default
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 numeric_scaled <- ggplot(cars, aes(x = hp, y = mpg)) +
   geom_point(size = 3, color = "grey40") +
   scale_x_continuous(breaks = seq(50, 350, by = 50)) +
@@ -314,7 +314,7 @@ Ordering categories can change the story a plot tells. Here the first box plot
 uses the default factor order, while the second reorders cylinders by median
 `mpg`.
 
-```{r fig.width=10, fig.height=4}
+```{r}
 default_order_plot <- ggplot(cars, aes(x = factor(cyl), y = mpg)) +
   geom_boxplot(fill = "grey80") +
   labs(title = "Default order", x = "Cylinders")
@@ -322,7 +322,7 @@ default_order_plot <- ggplot(cars, aes(x = factor(cyl), y = mpg)) +
 default_order_plot
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 reordered_plot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg)) +
   geom_boxplot(fill = "tomato") +
   labs(title = "Reordered by median mpg", x = "Cylinders")
@@ -337,7 +337,7 @@ This is the point where factor handling matters directly for visualisation.
 Use `color` for points and lines. Use `fill` for objects with an inside area,
 such as bars, tiles, and box plots.
 
-```{r fig.width=10, fig.height=4}
+```{r}
 color_scale_plot <- ggplot(cars, aes(x = wt, y = mpg, color = hp)) +
   geom_point(size = 4) +
   scale_color_gradient(low = "skyblue", high = "firebrick") +
@@ -350,7 +350,7 @@ mean_mpg_by_cyl_gear <- cars %>%
 color_scale_plot
 ```
 
-```{r fig.width=10, fig.height=4}
+```{r}
 fill_scale_plot <- ggplot(mean_mpg_by_cyl_gear, aes(x = cyl, y = gear, fill = mean_mpg)) +
   geom_tile(color = "white", linewidth = 0.8) +
   geom_text(aes(label = round(mean_mpg, 1)), color = "white", fontface = "bold") +
@@ -395,7 +395,7 @@ layout. Instead of relying on native faceting in this course, we use
 `patchwork` to place separate plots next to each other or stack them into a
 single figure.
 
-```{r fig.width=11, fig.height=8}
+```{r}
 dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +
   plot_annotation(
     title = "Three views of the mtcars dataset",
@@ -437,6 +437,6 @@ Requirements:
 - choose at least one scale intentionally
 - add meaningful labels or a title
 
-```{r fig.width=10, fig.height=6}
+```{r}
 # Build your final figure here.
 ```
