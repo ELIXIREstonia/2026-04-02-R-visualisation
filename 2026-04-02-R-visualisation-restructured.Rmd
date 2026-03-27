@@ -97,16 +97,23 @@ Good plots start with understanding the dataset: what each row represents,
 which variables are continuous, and which variables should be treated as
 categories.
 
+For the rest of the course, we use the cleaned dataset `cars` rather than the
+raw `mtcars` table.
+
 ## Mapping
 
 Mapping connects variables in the dataset to what we see on screen. It tells
 `ggplot2` which column should control the x-axis, the y-axis, the colour, the
-size, or another visual property.
+size, or another visual property. Common aesthetics include `x`, `y`, `color`,
+`fill`, `shape`, and `size`.
 
 ```{r}
-ggplot(cars, aes(x = wt, y = mpg)) +
-  geom_point(size = 3, color = "steelblue")
+ggplot(cars, aes(x = wt, y = mpg, color = am)) +
+  geom_point(size = 3) +
+  labs(color = "Transmission")
 ```
+
+Here, `wt` is mapped to the x-axis, `mpg` to the y-axis, and `am` to colour.
 
 In practice, mapping means asking questions like:
 
@@ -210,14 +217,15 @@ the same plot.
 ### Box plot with jittered points
 
 ```{r}
-ggplot(cars, aes(x = cyl, y = mpg, fill = cyl)) +
-  geom_boxplot(alpha = 0.5, outlier.shape = NA) +
-  geom_jitter(width = 0.15, alpha = 0.75, size = 2) +
-  labs(x = "Cylinders", y = "Miles per gallon", fill = "Cylinders")
+ggplot(cars, aes(x = gear, y = mpg)) +
+  geom_boxplot(fill = "grey85", outlier.shape = NA) +
+  geom_jitter(aes(color = am), width = 0.15, size = 2.5, alpha = 0.85) +
+  labs(x = "Gears", y = "Miles per gallon", color = "Transmission") +
+  theme_minimal()
 ```
 
-The box plot shows the summary distribution, while the jittered points reveal
-the individual cars.
+The jittered points show the individual cars, while the box plot shows the
+summary distribution for each gear group.
 
 ### Scatter plot with a trend line and labels
 
