@@ -75,6 +75,11 @@ grammar simple while still showing how plots can be combined and compared.
 
 ## Data
 
+We need data in order to visualise it. In `ggplot2`, data is the input that
+tells the plot, "this is the table we will use to create the visualisation."
+Before making a chart, it helps to know what the rows represent and what kind
+of variables the columns contain.
+
 We use the built-in `mtcars` dataset throughout the course.
 
 ```{r}
@@ -94,7 +99,9 @@ categories.
 
 ## Mapping
 
-Mapping connects variables in the dataset to what we see on screen.
+Mapping connects variables in the dataset to what we see on screen. It tells
+`ggplot2` which column should control the x-axis, the y-axis, the colour, the
+size, or another visual property.
 
 ```{r}
 ggplot(cars, aes(x = wt, y = mpg)) +
@@ -143,7 +150,9 @@ size to `3`.
 ## Layers
 
 Layers are where the plot becomes visible. In `ggplot2`, a layer can include a
-geom, a statistical transformation, and a position adjustment.
+geom, a statistical transformation, and a position adjustment. In simple terms,
+layers tell `ggplot2` what to draw on top of the data, such as points, bars,
+boxes, or smooth lines.
 
 ### Choosing geoms
 
@@ -222,7 +231,8 @@ Build a plot of `mpg` by `gear` that combines `geom_boxplot()` and
 ## Scales
 
 Scales control how values are translated into positions, colours, fills, and
-labels.
+labels. They help turn raw values into readable axes and legends, and they let
+us control breaks, labels, ordering, and colour palettes.
 
 ### Numeric scales
 
@@ -294,7 +304,9 @@ color_scale_plot | fill_scale_plot
 ## Theme
 
 Polishing matters. A plot becomes easier to read when it has a clear title,
-useful axis labels, and a consistent theme.
+useful axis labels, and a consistent theme. The theme controls the visual style
+around the data, such as fonts, grid lines, legend position, and background
+appearance.
 
 ```{r}
 styled_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
@@ -315,7 +327,9 @@ styled_plot
 ## Patchwork
 
 The `patchwork` package makes it easy to combine several ggplots into one
-layout.
+layout. Instead of relying on native faceting in this course, we use
+`patchwork` to place separate plots next to each other or stack them into a
+single figure.
 
 ```{r fig.width=11, fig.height=8}
 dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +
