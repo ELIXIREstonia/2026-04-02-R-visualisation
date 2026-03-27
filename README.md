@@ -29,3 +29,5 @@ Learning outcomes for the training:
 -   Students will be able to use the patchwork package to combine multiple `ggplot2` plots into a cohesive and organized layout, facilitating comprehensive data storytelling and comparative analysis.
 
 This is the second part of a two-part curriculum designed to introduce R and ggplot2. If you are unfamiliar with the basic syntax, data types, and the tidyverse in R, then you should first check out Part One at: <https://github.com/ELIXIREstonia/2026-03-05-R-basic>.
+
+Please fill in the feedback form so that we can improve the course material and teaching skills: <https://forms.gle/Zvt6wyEUBbvppyKM9>
