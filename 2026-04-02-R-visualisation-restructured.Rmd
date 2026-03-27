@@ -311,8 +311,7 @@ numeric_scaled
 ### Discrete scales and factor order
 
 Ordering categories can change the story a plot tells. Here the first box plot
-uses the default factor order, while the second reorders cylinders by median
-`mpg`.
+uses the default factor order, while the second sets a new order manually.
 
 ```{r}
 default_order_plot <- ggplot(cars, aes(x = factor(cyl), y = mpg)) +
@@ -323,9 +322,9 @@ default_order_plot
 ```
 
 ```{r}
-reordered_plot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg)) +
+reordered_plot <- ggplot(cars, aes(x = factor(cyl, levels = c("8", "6", "4")), y = mpg)) +
   geom_boxplot(fill = "tomato") +
-  labs(title = "Reordered by median mpg", x = "Cylinders")
+  labs(title = "Manually reordered", x = "Cylinders")
 
 reordered_plot
 ```
@@ -343,11 +342,13 @@ color_scale_plot <- ggplot(cars, aes(x = wt, y = mpg, color = hp)) +
   scale_color_gradient(low = "skyblue", high = "firebrick") +
   labs(title = "Continuous colour scale", color = "Horsepower")
 
+color_scale_plot
+```
+
+```{r}
 mean_mpg_by_cyl_gear <- cars %>%
   group_by(cyl, gear) %>%
   summarise(mean_mpg = mean(mpg), .groups = "drop")
-
-color_scale_plot
 ```
 
 ```{r}
