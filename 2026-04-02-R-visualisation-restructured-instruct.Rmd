@@ -47,31 +47,6 @@ Before starting this session, learners should already be comfortable with:
 If you want a quick refresher on those ideas, use the `2026-04-02-R-warmup.Rmd`
 document first.
 
-## Meet the dataset
-
-We use the built-in `mtcars` dataset throughout the course.
-
-```{r}
-glimpse(cars)
-```
-
-The main variables we will reuse are:
-
-- `mpg`: miles per gallon
-- `wt`: car weight in 1000 lb
-- `hp`: horsepower
-- `cyl`, `gear`, and `am`: categories that are useful for grouping and colour
-
-## Your first ggplot
-
-`ggplot2` builds plots step by step. We start by giving it data, mapping
-variables to aesthetics, and adding a geom.
-
-```{r}
-ggplot(cars, aes(x = wt, y = mpg)) +  # aes() maps columns to x and y axes
-  geom_point(size = 3, color = "steelblue")  # fixed size and colour for all points
-```
-
 ## Grammar of graphics
 
 ![](https://ggplot2.tidyverse.org/articles/ggplot2_files/figure-html/overview_graphic-1.png)
@@ -96,10 +71,35 @@ faceting functions such as `facet_wrap()` or `facet_grid()`, we will build
 multi-panel comparisons with `patchwork`. That keeps the first version of the
 grammar simple while still showing how plots can be combined and compared.
 
-## Aesthetics
+## Data
 
-Aesthetics connect variables in the dataset to what we see on screen. In
-practice, this means asking questions like:
+We use the built-in `mtcars` dataset throughout the course.
+
+```{r}
+glimpse(cars)
+```
+
+The main variables we will reuse are:
+
+- `mpg`: miles per gallon
+- `wt`: car weight in 1000 lb
+- `hp`: horsepower
+- `cyl`, `gear`, and `am`: categories that are useful for grouping and colour
+
+Good plots start with understanding the dataset: what each row represents,
+which variables are continuous, and which variables should be treated as
+categories.
+
+## Mapping
+
+Mapping connects variables in the dataset to what we see on screen.
+
+```{r}
+ggplot(cars, aes(x = wt, y = mpg)) +  # aes() maps columns to x and y axes
+  geom_point(size = 3, color = "steelblue")  # fixed size and colour for all points
+```
+
+In practice, mapping means asking questions like:
 
 - which variable goes on the x-axis?
 - which variable goes on the y-axis?
@@ -146,7 +146,12 @@ colour while point size stays fixed.
 Teaching note: this task is useful for checking whether learners understand the
 difference between mapping a variable and setting a constant.
 
-## Geoms
+## Layers
+
+Layers are where the plot becomes visible. In `ggplot2`, a layer can include a
+geom, a statistical transformation, and a position adjustment.
+
+### Choosing geoms
 
 Different geoms are useful for different variable types. With the same dataset,
 we can make several valid plots by changing only the geom.
@@ -178,7 +183,7 @@ As a rule of thumb:
 - use bar plots for counts of categories
 - use box plots when comparing a continuous variable across categories
 
-## Layers and position adjustments
+### Adding more than one layer
 
 One of the strengths of `ggplot2` is that you can add more than one layer to
 the same plot.
@@ -307,7 +312,7 @@ color_scale_plot | fill_scale_plot
 Teaching note: this section deliberately separates `scale_color_gradient()` and
 `scale_fill_gradient()` so learners see the correct use case for each one.
 
-## Titles, labels, limits, and themes
+## Theme
 
 Polishing matters. A plot becomes easier to read when it has a clear title,
 useful axis labels, and a consistent theme.
@@ -328,17 +333,22 @@ styled_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
 styled_plot
 ```
 
-If you want to zoom into a region without dropping observations, use
-`coord_cartesian()`.
+## Patchwork
 
-```{r}
-styled_plot +
-  coord_cartesian(xlim = c(1.5, 4.5), ylim = c(10, 35)) +  # zooms the view without dropping data points outside the range
-  labs(caption = "Zoomed with coord_cartesian()")
+The `patchwork` package makes it easy to combine several ggplots into one
+layout.
+
+```{r fig.width=11, fig.height=8}
+dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +  # / stacks rows; inner | places side by side
+  plot_annotation(
+    title = "Three views of the mtcars dataset",
+    subtitle = "Scatter plot, reordered box plot, and summary heatmap",
+    caption = "Data source: mtcars"
+  ) +
+  plot_layout(guides = "collect")  # merge duplicate legends into one shared legend
+
+dashboard_plot
 ```
-
-Teaching note: `coord_cartesian()` is a safer teaching example than `xlim()` or
-`ylim()` because it keeps all data in the underlying statistics.
 
 ## Exporting plots with `ggsave()`
 
@@ -358,23 +368,6 @@ pdf_file
 
 When you make your own report, replace `tempfile()` with a real filename such as
 `"my-figure.png"`.
-
-## Combining plots with patchwork
-
-The `patchwork` package makes it easy to combine several ggplots into one
-layout.
-
-```{r fig.width=11, fig.height=8}
-dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +  # / stacks rows; inner | places side by side
-  plot_annotation(
-    title = "Three views of the mtcars dataset",
-    subtitle = "Scatter plot, reordered box plot, and summary heatmap",
-    caption = "Data source: mtcars"
-  ) +
-  plot_layout(guides = "collect")  # merge duplicate legends into one shared legend
-
-dashboard_plot
-```
 
 ## Final task
 
