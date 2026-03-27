@@ -1,7 +1,7 @@
 ---
 title: "Introduction to R"
 author: "Priit Adler, Nurlan Kerimov"
-date: "2025-11-24"
+date: "2026-04-02"
 output: html_document
 editor_options: 
   markdown: 
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction (Rstudio / R)
 
 You can find this and the data files from ELIXIREstonia github:
-<https://github.com/ELIXIREstonia/2025-11-24-R-visualisation>
+<https://github.com/ELIXIREstonia/2026-04-02-R-visualisation>
 
 R is a popular open-source programming language and environment for statistical
 computing and graphics.
@@ -178,7 +178,20 @@ analyze the effects of the different drugs and their dosages on memory recall.
         `case_when`)
 
 ```{r}
+Isd <- Isd %>%
+  mutate(
+    age_group = case_when(
+      age < 30 ~ "Young",
+      age >= 30 & age <= 50 ~ "Middle-aged",
+      age > 50 ~ "Senior",
+      TRUE ~ "Unknown" # Good practice to have a fallback
+    )
+  )
 
+# Check the results
+head(Isd %>% select(age, age_group))
+table(Isd$age_group)
+Isd
 ```
 
 # Plotting with ggplot2
@@ -442,8 +455,19 @@ make it very light (transparent), use position `jitter`. Find more options from
 cheatsheet.
 
 ```{r fig.width=8, fig.height=6}
+# Violin plot of Diff by Drug
+violin_plot <- ggplot(Isd, aes(x = Drug, y = Diff, fill = Drug)) +
+  geom_violin(trim = FALSE, alpha = 0.6) + # Violin plot to show density/distribution
+  geom_point(position = position_jitter(width = 0.2), alpha = 0.3, size = 1.5) + # Jittered points to show individual observations
+  labs(
+    title = "Distribution of Memory Score Differences by Drug",
+    subtitle = "Violin plot with jittered points",
+    y = "Memory Score Difference",
+    x = "Drug"
+  ) +
+  theme_minimal()
 
-
+violin_plot
 ```
 
 ## Scaling Numeric (continious) and Discrete Variables
@@ -800,7 +824,31 @@ Explore more options from various
 [cheatsheets](https://posit.co/resources/cheatsheets/).
 
 ```{r}
+# Custom visualization: Memory Score Difference by Dosage and Drug
+# We'll assume 'Dosage' is a variable in the dataset based on the description, 
+# but looking at the file, it seems dosage info might be encoded in Drug or separate.
+# Let's check the columns first. If Dosage isn't explicit, we'll stick to Drug and Happy_Sad_group.
 
+# Let's create a comprehensive plot showing Diff by Drug and Happy_Sad_group
+custom_plot <- ggplot(Isd, aes(x = Drug, y = Diff, fill = Happy_Sad_group)) +
+  geom_boxplot(outlier.shape = NA, alpha = 0.7) +
+  geom_point(position = position_jitterdodge(jitter.width = 0.2), alpha = 0.4, size = 1) +
+  facet_wrap(~age_group) + # Facet by the new age_group variable we created
+  labs(
+    title = "Memory Score Difference by Drug and Emotional Priming",
+    subtitle = "Faceted by Age Group",
+    x = "Drug Treatment",
+    y = "Difference in Memory Score",
+    fill = "Priming Group"
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_light() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    legend.position = "bottom"
+  )
+
+custom_plot
 ```
 
 #### Bonus
