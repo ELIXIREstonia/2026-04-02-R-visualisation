@@ -124,11 +124,14 @@ mapped_plot <- ggplot(cars, aes(x = wt, y = mpg, color = am)) +
   geom_point(size = 3) +
   labs(title = "Colour mapped to a variable", color = "Transmission")
 
+mapped_plot
+```
+
+```{r fig.width=10, fig.height=4}
 set_plot <- ggplot(cars, aes(x = wt, y = mpg)) +
   geom_point(size = 3, color = "steelblue") +
   labs(title = "Colour set to a fixed value")
 
-mapped_plot
 set_plot
 ```
 
@@ -160,26 +163,35 @@ boxes, or smooth lines.
 Different geoms are useful for different variable types. With the same dataset,
 we can make several valid plots by changing only the geom.
 
-```{r fig.width=10, fig.height=8}
+```{r fig.width=10, fig.height=4}
 scatter_geom <- ggplot(cars, aes(x = wt, y = mpg)) +
   geom_point(color = "steelblue", size = 3) +
   labs(title = "geom_point()")
 
+scatter_geom
+```
+
+```{r fig.width=10, fig.height=4}
 hist_geom <- ggplot(cars, aes(x = mpg)) +
   geom_histogram(binwidth = 2, fill = "tomato", color = "white") +
   labs(title = "geom_histogram()")
 
+hist_geom
+```
+
+```{r fig.width=10, fig.height=4}
 bar_geom <- ggplot(cars, aes(x = cyl)) +
   geom_bar(fill = "grey40") +
   labs(title = "geom_bar()", x = "Cylinders")
 
+bar_geom
+```
+
+```{r fig.width=10, fig.height=4}
 box_geom <- ggplot(cars, aes(x = cyl, y = mpg)) +
   geom_boxplot(fill = "khaki") +
   labs(title = "geom_boxplot()", x = "Cylinders")
 
-scatter_geom
-hist_geom
-bar_geom
 box_geom
 ```
 
@@ -247,13 +259,16 @@ numeric_default <- ggplot(cars, aes(x = hp, y = mpg)) +
   geom_point(size = 3, color = "grey40") +
   labs(title = "Default numeric scales")
 
+numeric_default
+```
+
+```{r fig.width=10, fig.height=4}
 numeric_scaled <- ggplot(cars, aes(x = hp, y = mpg)) +
   geom_point(size = 3, color = "grey40") +
   scale_x_continuous(breaks = seq(50, 350, by = 50)) +
   scale_y_continuous(breaks = seq(10, 35, by = 5)) +
   labs(title = "Custom numeric breaks")
 
-numeric_default
 numeric_scaled
 ```
 
@@ -268,11 +283,14 @@ default_order_plot <- ggplot(cars, aes(x = factor(cyl), y = mpg)) +
   geom_boxplot(fill = "grey80") +
   labs(title = "Default order", x = "Cylinders")
 
+default_order_plot
+```
+
+```{r fig.width=10, fig.height=4}
 reordered_plot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mpg)) +
   geom_boxplot(fill = "tomato") +
   labs(title = "Reordered by median mpg", x = "Cylinders")
 
-default_order_plot
 reordered_plot
 ```
 
@@ -293,6 +311,10 @@ mean_mpg_by_cyl_gear <- cars %>%
   group_by(cyl, gear) %>%
   summarise(mean_mpg = mean(mpg), .groups = "drop")
 
+color_scale_plot
+```
+
+```{r fig.width=10, fig.height=4}
 fill_scale_plot <- ggplot(mean_mpg_by_cyl_gear, aes(x = cyl, y = gear, fill = mean_mpg)) +
   geom_tile(color = "white", linewidth = 0.8) +
   geom_text(aes(label = round(mean_mpg, 1)), color = "white", fontface = "bold") +
@@ -304,7 +326,6 @@ fill_scale_plot <- ggplot(mean_mpg_by_cyl_gear, aes(x = cyl, y = gear, fill = me
     fill = "Mean mpg"
   )
 
-color_scale_plot
 fill_scale_plot
 ```
 
