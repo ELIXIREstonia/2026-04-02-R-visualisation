@@ -128,7 +128,8 @@ set_plot <- ggplot(cars, aes(x = wt, y = mpg)) +
   geom_point(size = 3, color = "steelblue") +
   labs(title = "Colour set to a fixed value")
 
-mapped_plot | set_plot
+mapped_plot
+set_plot
 ```
 
 You can also map more than one aesthetic at the same time.
@@ -176,7 +177,10 @@ box_geom <- ggplot(cars, aes(x = cyl, y = mpg)) +
   geom_boxplot(fill = "khaki") +
   labs(title = "geom_boxplot()", x = "Cylinders")
 
-(scatter_geom | hist_geom) / (bar_geom | box_geom)
+scatter_geom
+hist_geom
+bar_geom
+box_geom
 ```
 
 As a rule of thumb:
@@ -249,7 +253,8 @@ numeric_scaled <- ggplot(cars, aes(x = hp, y = mpg)) +
   scale_y_continuous(breaks = seq(10, 35, by = 5)) +
   labs(title = "Custom numeric breaks")
 
-numeric_default | numeric_scaled
+numeric_default
+numeric_scaled
 ```
 
 ### Discrete scales and factor order
@@ -267,7 +272,8 @@ reordered_plot <- ggplot(cars, aes(x = reorder(factor(cyl), mpg, median), y = mp
   geom_boxplot(fill = "tomato") +
   labs(title = "Reordered by median mpg", x = "Cylinders")
 
-default_order_plot | reordered_plot
+default_order_plot
+reordered_plot
 ```
 
 This is the point where factor handling matters directly for visualisation.
@@ -298,7 +304,8 @@ fill_scale_plot <- ggplot(mean_mpg_by_cyl_gear, aes(x = cyl, y = gear, fill = me
     fill = "Mean mpg"
   )
 
-color_scale_plot | fill_scale_plot
+color_scale_plot
+fill_scale_plot
 ```
 
 ## Theme
