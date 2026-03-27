@@ -51,6 +51,8 @@ document first.
 
 ![](https://ggplot2.tidyverse.org/articles/ggplot2_files/figure-html/overview_graphic-1.png)
 
+Source: <https://ggplot2.tidyverse.org/articles/ggplot2.html>
+
 The `ggplot2` introduction describes a plot as seven composable parts:
 
 - data: the table we want to visualise
