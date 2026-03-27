@@ -53,6 +53,31 @@ In this warm-up we use the built-in `mtcars` dataset for every example.
 glimpse(cars)
 ```
 
+### Data Dictionary: mtcars Features
+
+The `mtcars` dataset contains 32 observations of cars (rows) with 11 features (columns) collected from 1974 Motor Trend magazine:
+
+**Continuous Variables (Numeric measurements):**
+
+- **`mpg`**: Miles per gallon - fuel efficiency of the vehicle
+- **`disp`**: Displacement in cubic inches - the total volume of all cylinders in the engine
+- **`hp`**: Gross horsepower - the raw power output of the engine
+- **`drat`**: Rear axle ratio - affects acceleration and fuel efficiency
+- **`wt`**: Weight in 1000 lbs - the mass of the vehicle
+- **`qsec`**: 1/4 mile time in seconds - acceleration performance (lower is faster)
+
+**Categorical Variables (Categories turned into factors):**
+
+- **`cyl`**: Number of cylinders (4, 6, or 8) - affects power and fuel efficiency
+- **`vs`**: Engine type (0 = V-shaped, 1 = straight-line) - engine configuration
+- **`am`**: Transmission type (0 = Automatic, 1 = Manual) - how power is transferred
+- **`gear`**: Number of forward gears (3, 4, or 5) - transmission gears
+
+**Other:**
+
+- **`carb`**: Number of carburetors - fuel delivery system component
+- **`car`**: Car name/model (added during data setup)
+
 A few columns deserve special attention:
 
 - `mpg`, `hp`, `wt`, and `disp` are continuous variables
