@@ -1,0 +1,144 @@
+---
+title: "R Warm-up for Visualisation"
+author: "Priit Adler, Nurlan Kerimov"
+date: "2026-04-02"
+output: html_document
+editor_options:
+  markdown:
+    wrap: 80
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+library(dplyr)
+library(tibble)
+
+opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+cars <- mtcars %>%
+  rownames_to_column(var = "car") %>%
+  mutate(
+    cyl = factor(cyl),
+    gear = factor(gear),
+    am = factor(am, levels = c(0, 1), labels = c("Automatic", "Manual"))
+  )
+```
+
+## Why this document?
+
+This warm-up is a short prerequisite companion for the ggplot2 session. Use it
+to refresh the small data operations that often happen just before plotting.
+
+## Course preconditions
+
+Before coming to the visualisation course, learners should be comfortable with:
+
+- basic R and RStudio navigation
+- running code chunks in R Markdown
+- the idea of tidy data: rows are observations and columns are variables
+- the difference between categorical and continuous variables
+- factors as stored categories with labels or a specific order
+
+If these ideas are still new, work through this document first and keep it open
+during the plotting session.
+
+## Meet the dataset
+
+In this warm-up we use the built-in `mtcars` dataset for every example.
+
+```{r}
+glimpse(cars)
+```
+
+A few columns deserve special attention:
+
+- `mpg`, `hp`, `wt`, and `disp` are continuous variables
+- `cyl`, `gear`, and `am` are categories, so we turned them into factors
+
+## Exercise 1: `select()`
+
+Pick a small set of columns that would be useful in a fuel-efficiency summary:
+`car`, `mpg`, `hp`, `wt`, and `am`.
+
+```{r}
+# Select the requested columns from cars.
+# Print the first 6 rows of the result.
+```
+
+## Exercise 2: `filter()`
+
+Find manual cars with more than 25 miles per gallon.
+
+```{r}
+# Filter cars so that only manual transmission cars with mpg > 25 remain.
+```
+
+## Exercise 3: `arrange()`
+
+Sort the data from highest to lowest fuel efficiency. If two cars have similar
+fuel efficiency, place the lighter car first.
+
+```{r}
+# Arrange by descending mpg and then ascending wt.
+# Show the first 10 rows.
+```
+
+## Exercise 4: `mutate()`
+
+Create two new variables:
+
+- `power_to_weight` = `hp / wt`
+- `mpg_band` with values `"low"`, `"medium"`, and `"high"`
+
+Use this rule for `mpg_band`:
+
+- `"high"` if `mpg >= 25`
+- `"medium"` if `mpg >= 18` and `< 25`
+- `"low"` otherwise
+
+```{r}
+# Add power_to_weight and mpg_band.
+# Keep car, mpg, hp, wt, power_to_weight, and mpg_band in the printed result.
+```
+
+## Exercise 5: `group_by()` + `summarise()`
+
+Create a summary table by number of cylinders. Include:
+
+- number of cars
+- mean `mpg`
+- mean `hp`
+
+```{r}
+# Group by cyl and calculate n_cars, mean_mpg, and mean_hp.
+```
+
+## Exercise 6: one more grouped summary
+
+Create a summary table by transmission and cylinders. This is the kind of table
+that later becomes a bar plot, box plot, or heatmap.
+
+Include:
+
+- `am`
+- `cyl`
+- mean `mpg`
+- mean `wt`
+
+```{r}
+# Group by am and cyl, then summarise mean_mpg and mean_wt.
+```
+
+## Checkpoint
+
+These small verbs show up again and again when building plots:
+
+- `select()` helps you focus on the variables you want to show
+- `filter()` limits the data to a relevant subset
+- `arrange()` helps you inspect patterns before plotting
+- `mutate()` creates variables for labels, colours, groups, or facets
+- `group_by()` and `summarise()` create summary tables for bars, lines, and
+  heatmaps
+
+In the main visualisation course, we will assume you can read and modify tables
+at about this level.
