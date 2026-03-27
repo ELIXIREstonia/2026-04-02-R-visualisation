@@ -195,6 +195,10 @@ colour while point size stays fixed.
 Teaching note: this task is useful for checking whether learners understand the
 difference between mapping a variable and setting a constant.
 
+Additional reading:
+[ggplot2 geoms reference](https://ggplot2.tidyverse.org/reference/index.html#geoms),
+[From Data to Viz](https://data-to-viz.com/).
+
 ## Layers
 
 Layers are where the plot becomes visible. In `ggplot2`, a layer can include a

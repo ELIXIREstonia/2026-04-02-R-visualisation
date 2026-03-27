@@ -186,6 +186,10 @@ size to `3`.
 # Build the plot here.
 ```
 
+Additional reading:
+[ggplot2 geoms reference](https://ggplot2.tidyverse.org/reference/index.html#geoms),
+[From Data to Viz](https://data-to-viz.com/).
+
 ## Layers
 
 Layers are where the plot becomes visible. In `ggplot2`, a layer can include a
