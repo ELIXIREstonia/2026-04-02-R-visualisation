@@ -36,13 +36,13 @@ switching contexts.
 
 Before starting this session, learners should already be comfortable with:
 
-- basic R and RStudio use
-- running code chunks in R Markdown
-- tidy data
-- factors
-- categorical and continuous variables
-- small table operations such as `select()`, `filter()`, `mutate()`,
-  `group_by()`, and `summarise()`
+-   basic R and RStudio use
+-   running code chunks in R Markdown
+-   tidy data
+-   factors
+-   categorical and continuous variables
+-   small table operations such as `select()`, `filter()`, `mutate()`,
+    `group_by()`, and `summarise()`
 
 If you want a quick refresher on those ideas, use the `2026-04-02-R-warmup.Rmd`
 document first.
@@ -55,18 +55,19 @@ Source: <https://ggplot2.tidyverse.org/articles/ggplot2.html>
 
 The `ggplot2` introduction describes a plot as seven composable parts:
 
-- data: the table we want to visualise
-- mapping: how variables are linked to aesthetics such as x, y, colour, or size
-- layers: what gets drawn, including the geom, the statistical transformation,
-  and the position adjustment
-- scales: how values become axes, legend entries, colours, or sizes
-- facets: ways to split a dataset into multiple small panels
-- coordinates: the system that interprets position, such as Cartesian
-  coordinates
-- theme: the non-data styling around the plot
+-   data: the table we want to visualise
+-   mapping: how variables are linked to aesthetics such as x, y, colour, or
+    size
+-   layers: what gets drawn, including the geom, the statistical transformation,
+    and the position adjustment
+-   scales: how values become axes, legend entries, colours, or sizes
+-   facets: ways to split a dataset into multiple small panels
+-   coordinates: the system that interprets position, such as Cartesian
+    coordinates
+-   theme: the non-data styling around the plot
 
-This course keeps that full picture in mind, but we will focus on the parts
-that beginners need most often.
+This course keeps that full picture in mind, but we will focus on the parts that
+beginners need most often.
 
 We will not cover coordinates in this course, and instead of using native
 faceting functions such as `facet_wrap()` or `facet_grid()`, we will build
@@ -77,10 +78,12 @@ grammar simple while still showing how plots can be combined and compared.
 
 We need data in order to visualise it. In `ggplot2`, data is the input that
 tells the plot, "this is the table we will use to create the visualisation."
-Before making a chart, it helps to know what the rows represent and what kind
-of variables the columns contain.
+Before making a chart, it helps to know what the rows represent and what kind of
+variables the columns contain.
 
-We use the built-in `mtcars` dataset throughout the course.
+We use the built-in changed version `mtcars` dataset throughout the course,
+see the `cars` dataframe below. 
+
 
 ```{r}
 glimpse(cars)
@@ -88,16 +91,15 @@ glimpse(cars)
 
 The main variables we will reuse are:
 
-- `mpg`: miles per gallon
-- `wt`: car weight in 1000 lb
-- `hp`: horsepower
-- `cyl`, `gear`, and `am`: categories that are useful for grouping and colour
+-   `mpg`: miles per gallon
+-   `wt`: car weight in 1000 lb
+-   `hp`: horsepower
+-   `cyl`, `gear`, and `am`: categories that are useful for grouping and colour
 
-Good plots start with understanding the dataset: what each row represents,
-which variables are continuous, and which variables should be treated as
-categories.
+Good plots start with understanding the dataset: what each row represents, which
+variables are continuous, and which variables should be treated as categories.
 
-## Mapping
+## Mapping (aesthetics)
 
 Mapping connects variables in the dataset to what we see on screen. It tells
 `ggplot2` which column should control the x-axis, the y-axis, the colour, the
@@ -110,9 +112,9 @@ ggplot(cars, aes(x = wt, y = mpg)) +  # aes() maps columns to x and y axes
 
 In practice, mapping means asking questions like:
 
-- which variable goes on the x-axis?
-- which variable goes on the y-axis?
-- should colour represent a category or a number?
+-   which variable goes on the x-axis?
+-   which variable goes on the y-axis?
+-   should colour represent a category or a number?
 
 ### Mapping versus setting
 
@@ -205,15 +207,15 @@ box_geom
 
 As a rule of thumb:
 
-- use scatter plots for two continuous variables
-- use histograms for one continuous variable
-- use bar plots for counts of categories
-- use box plots when comparing a continuous variable across categories
+-   use scatter plots for two continuous variables
+-   use histograms for one continuous variable
+-   use bar plots for counts of categories
+-   use box plots when comparing a continuous variable across categories
 
 ### Adding more than one layer
 
-One of the strengths of `ggplot2` is that you can add more than one layer to
-the same plot.
+One of the strengths of `ggplot2` is that you can add more than one layer to the
+same plot.
 
 ### Box plot with jittered points
 
@@ -255,8 +257,8 @@ ggplot(cars, aes(x = gear, y = mpg)) +
   labs(x = "Gears", y = "Miles per gallon", color = "Transmission")
 ```
 
-Expected result: a layered plot that shows both the grouped distribution and
-the individual observations.
+Expected result: a layered plot that shows both the grouped distribution and the
+individual observations.
 
 Teaching note: learners often choose too much jitter. Small width values keep
 the categories readable.
@@ -378,9 +380,8 @@ styled_plot
 ## Patchwork
 
 The `patchwork` package makes it easy to combine several ggplots into one
-layout. Instead of relying on native faceting in this course, we use
-`patchwork` to place separate plots next to each other or stack them into a
-single figure.
+layout. Instead of relying on native faceting in this course, we use `patchwork`
+to place separate plots next to each other or stack them into a single figure.
 
 ```{r fig.width=11, fig.height=8}
 dashboard_plot <- (styled_plot / (reordered_plot | fill_scale_plot)) +  # / stacks rows; inner | places side by side
@@ -419,10 +420,10 @@ Create a two-panel figure about fuel efficiency in `mtcars`.
 
 Requirements:
 
-- one panel should use two continuous variables
-- one panel should use a categorical x-axis
-- choose at least one scale intentionally
-- add meaningful labels or a title
+-   one panel should use two continuous variables
+-   one panel should use a categorical x-axis
+-   choose at least one scale intentionally
+-   add meaningful labels or a title
 
 ```{r fig.width=10, fig.height=6}
 fuel_scatter <- ggplot(cars, aes(x = wt, y = mpg, color = hp)) +
