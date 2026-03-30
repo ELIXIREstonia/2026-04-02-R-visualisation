@@ -399,8 +399,8 @@ argument sets the order of categories, and the `labels` argument renames them.
 ggplot(cars, aes(x = cyl, y = mpg)) +
   geom_boxplot(fill = "orchid") +
   scale_x_discrete(
-    limits = c("4", "6", "8"),                       # set the display order
-    labels = c("4-cyl", "6-cyl", "8-cyl")            # rename the tick labels
+    limits = c("8", "6", "4"),                       # set the display order
+    labels = c("8-cyl", "6-cyl", "4-cyl")            # rename the tick labels
   ) +
   labs(title = "Relabelled with scale_x_discrete()", x = "Cylinders")
 ```
