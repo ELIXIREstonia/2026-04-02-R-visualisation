@@ -392,6 +392,19 @@ This is the point where factor handling matters directly for visualisation.
 Note: this example now changes the x-axis order visibly from `4, 6, 8`
 to `8, 6, 4`, which makes the reason for reordering much clearer.
 
+You can also control discrete axes with `scale_x_discrete()`. The `limits`
+argument sets the order of categories, and the `labels` argument renames them.
+
+```{r}
+ggplot(cars, aes(x = cyl, y = mpg)) +
+  geom_boxplot(fill = "orchid") +
+  scale_x_discrete(
+    limits = c("4", "6", "8"),                       # set the display order
+    labels = c("4-cyl", "6-cyl", "8-cyl")            # rename the tick labels
+  ) +
+  labs(title = "Relabelled with scale_x_discrete()", x = "Cylinders")
+```
+
 ### Colour scales and fill scales
 
 Use `color` for points and lines. Use `fill` for objects with an inside area,
