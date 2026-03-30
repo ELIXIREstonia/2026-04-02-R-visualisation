@@ -26,11 +26,9 @@ cars <- mtcars %>%
   )
 ```
 
-## Course scope
+## About this course
 
-This course focuses on visualisation with `ggplot2`. We use one dataset from
-start to finish so that the plotting ideas stay in focus instead of constantly
-switching contexts.
+This course focuses on data visualisation with `ggplot2`, one of the most widely used and powerful graphics packages in the R ecosystem. By learning `ggplot2`, you will gain the ability to create professional, publication-quality plots that are essential for data analysis and communication.
 
 ## Prerequisites
 
