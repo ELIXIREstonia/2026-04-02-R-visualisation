@@ -192,7 +192,7 @@ ggplot(cars, aes(x = disp, y = hp, color = cyl)) +  # cyl mapped to color (insid
 Expected result: a scatter plot where cylinder groups are distinguished by
 colour while point size stays fixed.
 
-Teaching note: this task is useful for checking whether learners understand the
+Note: this task is useful for checking whether you understand the
 difference between mapping a variable and setting a constant.
 
 Additional reading:
@@ -299,7 +299,7 @@ ggplot(cars, aes(x = gear, y = mpg)) +
 Expected result: a layered plot that shows both the grouped distribution and the
 individual observations.
 
-Teaching note: learners often choose too much jitter. Small width values keep
+Note: you may be tempted to choose too much jitter. Small width values keep
 the categories readable.
 
 ## Scales
@@ -353,7 +353,7 @@ reordered_plot
 
 This is the point where factor handling matters directly for visualisation.
 
-Teaching note: this example now changes the x-axis order visibly from `4, 6, 8`
+Note: this example now changes the x-axis order visibly from `4, 6, 8`
 to `8, 6, 4`, which makes the reason for reordering much clearer.
 
 ### Colour scales and fill scales
@@ -391,8 +391,8 @@ fill_scale_plot <- ggplot(mean_mpg_by_cyl_gear, aes(x = cyl, y = gear, fill = me
 fill_scale_plot
 ```
 
-Teaching note: this section deliberately separates `scale_color_gradient()` and
-`scale_fill_gradient()` so learners see the correct use case for each one.
+Note: this section deliberately separates `scale_color_gradient()` and
+`scale_fill_gradient()` so you can see the correct use case for each one.
 
 ## Theme
 
@@ -491,5 +491,5 @@ fuel_scatter | fuel_boxplot  # combine the two panels side by side
 Expected result: a compact two-panel figure that uses both continuous and
 categorical views of the same topic.
 
-Teaching note: encourage learners to explain why they chose their scale and
-their plot types, not only how they coded them.
+Note: it is good practice to explain why you chose your scale and
+your plot types, not only how you coded them.
