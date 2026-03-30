@@ -76,10 +76,7 @@ The `ggplot2` introduction describes a plot as seven composable parts:
 This course keeps that full picture in mind, but we will focus on the parts that
 beginners need most often.
 
-We will not cover coordinates in this course, and instead of using native
-faceting functions such as `facet_wrap()` or `facet_grid()`, we will build
-multi-panel comparisons with `patchwork`. That keeps the first version of the
-grammar simple while still showing how plots can be combined and compared.
+We will not cover coordinates or native faceting functions (such as `facet_wrap()` or `facet_grid()`) in this course. However, to show how different plots can be combined, we will use the `patchwork` package to arrange multiple independent plots into a single layout.
 
 ## Additional components
 
